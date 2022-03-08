@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="nav">
+        <h1 style="color: aliceblue;"> Visque's Discussion Portal </h1>
+    </div>
+    <div class="container">
+
+        <div class="leftWin" id="leftWin">
+
+            <div class="container-header">
+                <button class="newQuestionForm cursor btn" id="newQuestionForm"> New Question </button>
+                <input type="textarea" id="questionSearch" class="questionSearch inputArea" placeholder="Search Questions...">
+            </div>
+            <div class="questionList" id="questionList">  </div>
+
+        </div>
+
+        <div class="rightWin" id="rightWin" style="display: flex;">
+
+            <div class="container-small-header"> <h1> Welcome to Discussion Portal ! </h1> </div>
+            <h4> Enter a subject and a question to get started </h4>
+            <input type="textarea" id="questionSubject" class="questionSubject inputArea questionTextArea" placeholder="Subject">
+            <textarea name="questionDescription" class="questionDescription questionTextArea big-textarea" id="questionDescription" cols="30" rows="10" placeholder="Enter your question here..."></textarea>
+            <div style="float: right;">
+                <button type="submit" class="questionFormSubmit cursor btn" id="questionFormSubmit"> Submit </button>
+            </div>
+
+        </div>
+
+        <div class="rightWin" id="responseWin" style="display: none;">
+
+            <div class="">  <h3> Question: - </h3>  </div>
+            <div class="questionResponseHead container-header" id="questionResponseHead">  </div>
+            <div class="resolve">
+                <button id="resolve-btn" class="resolve-btn btn cursor"> Resolve </button>
+            </div>
+            <h4> Response: - </h4>
+            <div class="questionResponseList" id="questionResponseList">
+            </div>
+            <h3> Add Response: - </h3>
+            <div class="questionAddResponse" id="questionAddResponse">
+                <input type="textarea" id="responseName" class="questionSubject responseName questionTextArea" placeholder="Your Name">
+                <textarea name="responseComment" class="responseComment questionDescription questionTextArea" id="responseComment" cols="30" rows="10" placeholder="Your Answer here.."></textarea>
+                <div>
+                    <button type="button" class="responseFormSubmit questionFormSubmit cursor btn" id="responseFormSubmit"> Submit </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+<script src="script.js"></script>
+</html>
