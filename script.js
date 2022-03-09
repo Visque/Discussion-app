@@ -19,7 +19,9 @@ const resolveBtn = document.getElementById("resolve-btn")
 //LocalStorage setup: -
 function setup(){
     var resLocal = getLocalStorage()
-    sortObject(resLocal)
+    sortVote(resLocal)
+    sortFav(resLocal)
+    // sortVote(resLocal)
     localStorage.setItem("resLocale", JSON.stringify(resLocal))
     renderLeftWin()
 }
@@ -43,9 +45,14 @@ questionResponseHead.addEventListener('click', e => setFav(e, getKeyForAddRespon
 
 // small Functions: -
 
-// sort the given array
-function sortObject(obj){
-    obj.sort((a, b) => (getResVote(a) >= getResVote(b) ? -1 : 1));
+// sort the given array by votes
+function sortVote(obj){
+    obj.sort((a, b) => (getResVote(a) > getResVote(b) ? -1 : 1));
+}
+
+// sort the given array by favourites
+function sortFav(obj) {
+  obj.sort((a, b) => (a.fav > b.fav ? -1 : 1));
 }
 
 // Render the Whole QuestionList
@@ -499,7 +506,7 @@ function getLocalResponses(key){
     resLocal = getLocalStorage()
     var idx = resLocal.findIndex(e => key === e.id)
     if(idx >= 0 && resLocal[idx].responses.length > 0){
-        sortObject(resLocal[idx].responses)
+        sortVote(resLocal[idx].responses)
         resLocal[idx].responses.forEach( e => addToResponseList(e) );
     }
     else{
