@@ -208,8 +208,8 @@ function addQuestionToLeftWin(question){
     if (questionList.children.length !== 0 && questionList.lastChild.nodeName === "H2")   questionList.lastChild.remove();
 
     var container = document.createElement("div");
-    container.setAttribute("class", "flex listBorder");
-    container.setAttribute("key", question.commentId);
+    container.setAttribute("class", "listBorder flex");
+    container.setAttribute("key", question.id);
 
     var questionItemVoteCount = document.createElement("div");
     questionItemVoteCount.setAttribute("class", "voteCountDiv");
@@ -231,7 +231,10 @@ function addQuestionToLeftWin(question){
     upImg.setAttribute("class", "unclickable vote-img");
 
     var second = document.createElement("div");
-    second.setAttribute("class", "responseSecondUp flex");
+    second.setAttribute("class", "responseSecondUp flex unclickable");
+
+    var third = document.createElement("div");
+    third.setAttribute("class", "responseThirdUp flex");
 
     var downVoteBtn = document.createElement("button");
     downVoteBtn.setAttribute("id", "downVoteQuestion");
@@ -247,8 +250,7 @@ function addQuestionToLeftWin(question){
 
     var questionItem = document.createElement("div");
     questionItem.setAttribute("key", question.id);
-    questionItem.classList.add("questionItem");
-    questionItem.classList.add("cursor");
+    questionItem.setAttribute("class", "questionItem cursor flex");
 
     var questionTitle = document.createElement("h3");
     questionTitle.style.marginRight = "auto";
@@ -270,20 +272,21 @@ function addQuestionToLeftWin(question){
 
 
     first.appendChild(questionTitle);
-    // first.appendChild(CreatedOn);
     first.appendChild(upVoteBtn);
     first.appendChild(downVoteBtn);
 
-    second.appendChild(questionSubTitle);
+    second.appendChild(CreatedOn);
+
+    third.appendChild(questionSubTitle);
 
     questionItem.appendChild(first);
     questionItem.appendChild(second);
+    questionItem.appendChild(third);
 
     container.appendChild(questionItemVoteCount);
     container.appendChild(questionItem);
 
     questionList.appendChild(container);
-
 }
 
 // Create a response object for the given key (key references to the question)
@@ -322,7 +325,6 @@ function addToResponseList(response){
     container.setAttribute("class", "flex")
     container.setAttribute("key", response.commentId);
 
-
     var listElementVoteCount = document.createElement("div")
     listElementVoteCount.setAttribute("class", "voteCountDiv")
 
@@ -346,7 +348,7 @@ function addToResponseList(response){
     upImg.setAttribute("class", "unclickable vote-img");
 
     var second = document.createElement("div")
-    second.setAttribute("class", "responseSecondUp flex")
+    second.setAttribute("class", "responseThirdUp flex")
     
     var downVoteBtn = document.createElement("button");
     downVoteBtn.setAttribute("id", "downVoteResponse");
