@@ -183,18 +183,8 @@ body{
     background-color: none;
 }
 
-.fav-false:hover{
-    background-color: #ffd700;
-    transition: 0.5ms ease-in-out;
-}
-
 .fav-true{
     background-color: #ffd700;
-}
-
-.fav-true:hover{
-    background-color: none;
-    transition: 0.5ms ease-in-out;
 }
 
 .inputArea{
