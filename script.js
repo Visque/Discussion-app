@@ -28,6 +28,7 @@ function setup(){
 setup()
 // For empty questionList
 checkIfEmpty()
+updateTimerForQuestions()
 
 
 //Event Listeners: -
@@ -133,9 +134,43 @@ function toggleFavClass(obj, img){
     }
 }
 
+function setCurrentElapsedTime(timer, createdAt){
+    var elapsedTime = Date.now() - createdAt;
+    var seconds = Math.floor(elapsedTime / 1000);
+    var minutes = Math.floor(seconds / 60);
+    var hours = Math.floor(minutes / 60);
+    var days = Math.floor(hours / 24);
+
+    if(days){
+        timer.innerHTML = `Posted about ${days} days ${hours % 24} hours ago...`;
+    }
+    else if(hours){
+        timer.innerHTML = `Posted about ${hours%24} hours ago...`
+    }
+    else if(minutes){
+        timer.innerHTML = `Posted about ${minutes%60} minutes ${seconds%60} seconds ago...`;
+    }
+    else{
+        timer.innerHTML = `Posted ${seconds%60} seconds ago...`;
+    }
+}
+
 // Major Functions: -
 
-//
+// Update the timer for Questions
+function updateTimerForQuestions(){
+    setInterval(function(){
+        for(var i = 0; i < questionList.children.length; ++i){
+            var questionContainer = questionList.children[i];
+            var questionCreatedAt = Number(questionContainer.getAttribute("key"))
+            var timer = questionContainer.children[1].children[1].firstChild;
+            
+            setCurrentElapsedTime(timer, questionCreatedAt)
+        } 
+    }, 1000)
+}
+
+// set Favourite to Local Array
 function setFav(e, key){
     if(e.target.classList.contains("fav-img")){
         console.log(e.target)
@@ -146,7 +181,6 @@ function setFav(e, key){
         var question = getQuestionfromQuestionRedefined(key)
         resLocal[idx].fav = !resLocal[idx].fav
         var questionFavBtn = question.children[1].children[1].children[1].firstChild;
-        console.log( elem );
         toggleFavClass(resLocal[idx], elem)
         toggleFavClass(resLocal[idx], questionFavBtn)
         if(resLocal[idx].fav === true)  questionFavBtn.parentElement.classList.remove("hide");
@@ -308,7 +342,7 @@ function addQuestionToLeftWin(question){
     downImg.setAttribute("class", "unclickable vote-img");
 
     var CreatedOn = document.createElement("p")
-    CreatedOn.innerHTML = new Date(question.id).toLocaleString()
+    setCurrentElapsedTime(CreatedOn, new Date(question.id));
 
     var questionItem = document.createElement("div");
     questionItem.setAttribute("key", question.id);
