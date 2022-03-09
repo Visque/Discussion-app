@@ -54,14 +54,12 @@ body{
     justify-content: space-around;
     height: auto;
     width: 100%;
-    padding: 100px 10px;
+    padding: 0px 10px;
     border-radius: 5px;
     border-top: 2px solid rgb(167, 202, 233);
-    padding: 0px;
 }
 
 .questionItem{
-    display: flex;
     flex-direction: column;
     justify-content: space-around;
     height: 4rem;
@@ -81,14 +79,11 @@ body{
     transition: 0.1s ease-in-out;
 }
 
-.inputArea{
-    padding: 0.5rem;
-}
 
 .listBorder-redefined{
     color: aliceblue;
     background-color: #FF6961;
-    display: flex;
+
     justify-content: space-around;
     height: auto;
     padding: 0px 10px;
@@ -97,15 +92,13 @@ body{
 }
 
 .questionItem-redefined{
-    color: aliceblue;
-    background-color: #FF6961;
-    display: flex;
+
     flex-direction: column;
     justify-content: space-around;
-    margin: 5px 0px;
-    height: inherit;
+    height: 4rem;
     width: 100%;
     padding: 0px 10px;
+    margin: 5px 0px;
 }
 
 .questionItem-redefined:hover{
@@ -134,6 +127,7 @@ body{
 
 .responseSecondUp{
     margin: 0px 0px 0px 0px;
+    padding: 0px 10px 0px 0px;
     color: #7A8387;
     justify-content: space-between;
 }
@@ -143,13 +137,15 @@ body{
     pointer-events: none;
 }
 
-/* .responseFirstUp{
-
-} */
+.responseFirstUp{
+    margin-bottom: 10px;
+}
 
 .voteCountDiv{
     width: 5%;
-    margin: 10px 0px;
+    height: inherit;
+    flex-direction: column;
+    justify-content: space-around;
     /* border: 2px solid #A9CBEA;
     border-radius: 5px;
     border-left: 0px;
@@ -163,8 +159,8 @@ body{
     float: right;
     /* margin-left: auto; */
     margin-right: 5px;
-    height: 25px;
-    width: 35px;
+    height: 20px;
+    width: 30px;
     display: flex;
     padding-right: px;
 }
@@ -174,7 +170,35 @@ body{
 }
 
 .vote-img{
+    width: 15px;
+}
+
+.fav-img{
+    pointer-events: all;
     width: 20px;
+    border-radius: 3px;
+}
+
+.fav-false{
+    background-color: none;
+}
+
+.fav-false:hover{
+    background-color: #ffd700;
+    transition: 0.5ms ease-in-out;
+}
+
+.fav-true{
+    background-color: #ffd700;
+}
+
+.fav-true:hover{
+    background-color: none;
+    transition: 0.5ms ease-in-out;
+}
+
+.inputArea{
+    padding: 0.5rem;
 }
 
 .flex{

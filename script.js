@@ -15,6 +15,7 @@ const questionSearch = document.getElementById("questionSearch");
 const responseFormSubmit = document.getElementById("responseFormSubmit");
 const questionList = document.getElementById("questionList")
 const resolveBtn = document.getElementById("resolve-btn")
+const favBtn = document.getElementById("favBtn")
 
 //LocalStorage setup: -
 function setup(){
@@ -31,11 +32,12 @@ checkIfEmpty()
 //Event Listeners: -
 questionList.addEventListener('click', e => questionListTap(e))
 questionFormSubmit.addEventListener('click', addQuestion)
-responseFormSubmit.addEventListener("click", getKeyForAddResponse)
+responseFormSubmit.addEventListener("click", e => addResponse(Number(getKeyForAddResponse())) )
 newQuestionForm.addEventListener('click', showQuestionWin)
 questionSearch.addEventListener('keyup',e => search(e))
 resolveBtn.addEventListener('click', resolveQuestion)
 responseWin.addEventListener('click', e => voting(e))
+favBtn.addEventListener('click', e => setFav(e, getKeyForAddResponse()) )
 
 // Functions: -
 
@@ -85,6 +87,11 @@ function showQuestionWin(){
     rightWin.style.display = "flex";
 }
 
+// get question elem from questionRedefined
+function getQuestionfromQuestionRedefined(key){
+    
+}
+
 // returns Total Vote of the object (question or Response)
 function getResVote(obj){
     // console.log("resVot: ", Number(obj.upVote) + Number(obj.downVote));
@@ -103,7 +110,31 @@ function downVote(obj){
     obj.downVote = Number(obj.downVote) - 1;
 }
 
+// Toggles CSS according to obj.fav value
+function toggleFavClass(obj, img){
+    if(obj.fav === true){
+        img.classList.add("fav-true")
+        img.classList.remove("fav-false")
+    }
+    else{
+        img.classList.add("fav-false");
+        img.classList.remove("fav-true");
+    }
+}
+
 // Major Functions: -
+
+//
+function setFav(e, key){
+    var resLocal = getLocalStorage()
+    var idx = resLocal.findIndex(data => data.id === key)
+    var elem = e.target.firstChild
+    toggleFavClass(obj, elem)
+    var question = getQuestionfromQuestionRedefined(key)
+    if(resLocal[idx].fav){
+        
+    }
+}
 
 // Passes element and the key to updateResponseVotes(element, key) or updateQuestionVotes(element, key) accordingly
 function voting(e){
@@ -145,7 +176,7 @@ function updateQuestionVotes(element, key){
     resLocal = getLocalStorage();
     var divElementContainer = element.parentElement.parentElement.parentElement;
 
-    var questionRedefined = document.getElementById("questionItem-redefined");
+    var questionRedefined = document.getElementById("questionItem-redefined");      
     var idx = resLocal.findIndex(
         (data) => data.id === Number(questionRedefined.getAttribute("key"))
     );
@@ -175,6 +206,7 @@ function addQuestion(){
         desc: questionDescription.value,
         upVote: 0,
         downVote: 0,
+        fav: false,
         responses: [],
     };
     questionSubject.value = ""
@@ -212,7 +244,7 @@ function addQuestionToLeftWin(question){
     container.setAttribute("key", question.id);
 
     var questionItemVoteCount = document.createElement("div");
-    questionItemVoteCount.setAttribute("class", "voteCountDiv");
+    questionItemVoteCount.setAttribute("class", "voteCountDiv flex");
 
     var resVote = document.createElement("h3");
     resVote.innerHTML = getResVote(question);
@@ -236,6 +268,16 @@ function addQuestionToLeftWin(question){
     var third = document.createElement("div");
     third.setAttribute("class", "responseThirdUp flex");
 
+    var favBtn = document.createElement("btn");
+    favBtn.setAttribute("class", "hide unclickable");                                    //keep it hidden at first
+    favBtn.setAttribute("id", "favBtn");                                    //keep it hidden at first
+
+    var favImg = document.createElement("img");
+    favImg.setAttribute("src", "images/favourites/fav.png");
+    favImg.setAttribute("class", "fav-img");
+
+    toggleFavClass(question, favImg)                                            // Toggles CSS according to its fav value
+
     var downVoteBtn = document.createElement("button");
     downVoteBtn.setAttribute("id", "downVoteQuestion");
     downVoteBtn.setAttribute("class", "vote-btn cursor hide unclickable");
@@ -246,7 +288,6 @@ function addQuestionToLeftWin(question){
 
     var CreatedOn = document.createElement("p")
     CreatedOn.innerHTML = new Date(question.id).toLocaleString()
-
 
     var questionItem = document.createElement("div");
     questionItem.setAttribute("key", question.id);
@@ -267,6 +308,8 @@ function addQuestionToLeftWin(question){
     }
     else questionSubTitle.innerHTML = question.desc;
 
+    favBtn.appendChild(favImg);
+
     upVoteBtn.appendChild(upImg);
     downVoteBtn.appendChild(downImg);
 
@@ -276,6 +319,7 @@ function addQuestionToLeftWin(question){
     first.appendChild(downVoteBtn);
 
     second.appendChild(CreatedOn);
+    second.appendChild(favBtn);
 
     third.appendChild(questionSubTitle);
 
@@ -326,7 +370,7 @@ function addToResponseList(response){
     container.setAttribute("key", response.commentId);
 
     var listElementVoteCount = document.createElement("div")
-    listElementVoteCount.setAttribute("class", "voteCountDiv")
+    listElementVoteCount.setAttribute("class", "voteCountDiv flex")
 
     var resVote = document.createElement("h3")
     resVote.innerHTML = getResVote(response)
@@ -400,15 +444,20 @@ function questionListTap(e){
         element.setAttribute("class", "flex listBorder-redefined");
 
         var temp = element.children[1]
+
         temp.setAttribute("id", "questionItem-redefined")
         temp.classList.remove("questionItem")
         temp.classList.add("questionItem-redefined");
+
 
         // Remove buttons class `hide` & `unclickable` to display in questionRedefined
         temp.firstChild.children[1].classList.remove("hide")
         temp.firstChild.children[1].classList.remove("unclickable")
         temp.firstChild.children[2].classList.remove("hide")
         temp.firstChild.children[2].classList.remove("unclickable")
+
+        //  unhide the Favourite button
+        temp.children[1].children[1].setAttribute("class", "")
 
         //  Adds Non Spliced Description of the question to `questionRedefined`
         resLocal = getLocalStorage()
@@ -428,7 +477,7 @@ function getKeyForAddResponse(){
     var questionRedefined = document.getElementById("questionResponseHead").children[0].children[1]
     console.log("questionRedefined: ", questionRedefined)    
     var key = Number(questionRedefined.getAttribute("key"))
-    addResponse(key)
+    return key
 }
 
 // Gets the response list to render Locally stored responses from the resLocal Array
@@ -494,6 +543,3 @@ function search(e){
         if(leftWin.lastChild.nodeName === "H2")    leftWin.lastChild.remove()
     }
 }
-
-
-// 
