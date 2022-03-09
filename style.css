@@ -48,14 +48,13 @@ body{
 .questionFormSubmit{
     margin-top: 10px;
     width: 20%;
-    
 }
 
 .listBorder{
     justify-content: space-around;
-    height: 4rem;
+    height: auto;
     width: 100%;
-    padding: 0px 10px;
+    padding: 100px 10px;
     border-radius: 5px;
     border-top: 2px solid rgb(167, 202, 233);
     padding: 0px;
@@ -68,6 +67,7 @@ body{
     height: 4rem;
     width: 100%;
     padding: 0px 10px;
+    margin: 10px 0px;
     border-radius: 5px;
     padding: 0px;
 }
@@ -103,7 +103,7 @@ body{
     flex-direction: column;
     justify-content: space-around;
     margin: 5px 0px;
-    height: auto;
+    height: inherit;
     width: 100%;
     padding: 0px 10px;
 }
@@ -133,17 +133,23 @@ body{
 }
 
 .responseSecondUp{
-    pointer-events: none;
-    margin: 0.5rem 0px;
-    height: auto;
+    margin: 0px 0px 0px 0px;
+    color: #7A8387;
+    justify-content: space-between;
 }
 
-.responseFirstUp{
-    margin: 0.5rem 0px;
+.responseThirdUp{
+    margin-top: 10px;
+    pointer-events: none;
 }
+
+/* .responseFirstUp{
+
+} */
 
 .voteCountDiv{
     width: 5%;
+    margin: 10px 0px;
     /* border: 2px solid #A9CBEA;
     border-radius: 5px;
     border-left: 0px;
@@ -208,4 +214,5 @@ body{
 
 p{
     word-break: break-all;
+    margin: 5px 0px;
 }
