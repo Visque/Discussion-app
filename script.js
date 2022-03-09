@@ -40,10 +40,13 @@ responseWin.addEventListener('click', e => voting(e))
 // Functions: -
 
 // small Functions: -
+
+// sort the given array
 function sortObject(obj){
     obj.sort((a, b) => (getResVote(a) >= getResVote(b) ? -1 : 1));
 }
 
+// Render the Whole QuestionList
 function renderLeftWin(){
     questionList.innerHTML = ""
     // checkIfEmpty()
@@ -52,6 +55,7 @@ function renderLeftWin(){
     checkIfEmpty()
 }
 
+// Checks if the QuestionList is empty or not
 function checkIfEmpty(){
     // console.log("len: ", questionList.children.length)
     // console.log(questionList.lastChild.nodeName);
@@ -62,38 +66,46 @@ function checkIfEmpty(){
     }
 }
 
+// Updates the resLocal array
 function getLocalStorage(){
     var arr = localStorage.getItem("resLocale")
     if(arr) return JSON.parse(arr)
     else    return []
 }
 
+// Shows ResponseWindow on the right
 function showResponseWin(){
     rightWin.style.display = "none";
     responseWin.style.display = "flex";
 }
 
+// Shows AddQuestionWindow on the right
 function showQuestionWin(){
     responseWin.style.display = "none";
     rightWin.style.display = "flex";
 }
 
+// returns Total Vote of the object (question or Response)
 function getResVote(obj){
     // console.log("resVot: ", Number(obj.upVote) + Number(obj.downVote));
     return Number(obj.upVote) + Number(obj.downVote);
 }
 
+// Add upvotes to the obj
 function upVote(obj){
     // console.log("upvote: ", obj.upVote)
     obj.upVote = Number(obj.upVote) + 1;
 }
 
+// Add downvotes to the obj
 function downVote(obj){
     // console.log("downvote: ", obj.downVote)
     obj.downVote = Number(obj.downVote) - 1;
 }
 
 // Major Functions: -
+
+// Passes element and the key to updateResponseVotes(element, key) or updateQuestionVotes(element, key) accordingly
 function voting(e){
     var element = e.target;
     if(element.classList.contains("vote-btn")){
@@ -106,6 +118,7 @@ function voting(e){
     }
 }
 
+// Updates innerHtml of response voteCountDiv in response Container
 function updateResponseVotes(element, key){
     resLocal = getLocalStorage()
     var divElementContainer = element.parentElement.parentElement.parentElement;
@@ -127,6 +140,7 @@ function updateResponseVotes(element, key){
     localStorage.setItem("resLocale", JSON.stringify(resLocal))
 }
 
+// Updates innerHtml of response voteCountDiv in Question Container
 function updateQuestionVotes(element, key){
     resLocal = getLocalStorage();
     var divElementContainer = element.parentElement.parentElement.parentElement;
@@ -149,6 +163,7 @@ function updateQuestionVotes(element, key){
     showResponseWin()
 }
 
+// Create a question obj
 function addQuestion(){
     if(questionSubject.value.trim() === "" || questionDescription.value.trim() === ""){
         alert("Cannot accept Empty Question fields :)")
@@ -168,12 +183,14 @@ function addQuestion(){
     addQuestionToLeftWin(question)
 }
 
+// Add the question obj to resLocal array
 function addToLocalStorage(question){
     resLocal = getLocalStorage()
     resLocal.push(question);
     localStorage.setItem("resLocale", JSON.stringify(resLocal))
 }
 
+// Delete the question Object using key from resLocal array
 function deleteFromLocalStorage(key){
     resLocal = getLocalStorage()
     var idx = resLocal.findIndex(e => e.id === key)
@@ -184,6 +201,7 @@ function deleteFromLocalStorage(key){
     checkIfEmpty()
 }
 
+// Add the question object to leftWin
 function addQuestionToLeftWin(question){
     //remove the h5 tag of "No discussions here..."
     // console.log(questionList.lastChild.nodeName)
@@ -268,6 +286,7 @@ function addQuestionToLeftWin(question){
 
 }
 
+// Create a response object for the given key (key references to the question)
 function addResponse(key){
     if (responseName.value.trim() === "" || responseComment.value.trim() === "") {
         alert("Cannot accept Empty comment fields :)");
@@ -287,6 +306,7 @@ function addResponse(key){
     addToResponseList(response)
 }
 
+// Add the response obj to the resLocal array
 function addResponseToLocalStorage(key, response){
     resLocal = getLocalStorage()
     var idx = resLocal.findIndex(e => key === e.id);
@@ -296,6 +316,7 @@ function addResponseToLocalStorage(key, response){
     localStorage.setItem("resLocale", JSON.stringify(resLocal))
 }
 
+// Add the respones object to responseWin
 function addToResponseList(response){
     var container = document.createElement("div")
     container.setAttribute("class", "flex")
@@ -363,6 +384,7 @@ function addToResponseList(response){
     questionResponseList.appendChild(container)
 }
 
+// eventListener function for Whole leftWin to pass the question Container to be displayed in the responseWin
 function questionListTap(e){
     // console.log(e.target)
     if(e.target.classList.contains("questionItem")){
@@ -399,6 +421,7 @@ function questionListTap(e){
     }
 }
 
+// gets the key of the question from questionRedefined for adding the response of the question (runs when we submit the response)
 function getKeyForAddResponse(){
     var questionRedefined = document.getElementById("questionResponseHead").children[0].children[1]
     console.log("questionRedefined: ", questionRedefined)    
@@ -406,6 +429,7 @@ function getKeyForAddResponse(){
     addResponse(key)
 }
 
+// Gets the response list to render Locally stored responses from the resLocal Array
 function getLocalResponses(key){
     resLocal = getLocalStorage()
     var idx = resLocal.findIndex(e => key === e.id)
@@ -420,6 +444,7 @@ function getLocalResponses(key){
     }
 }
 
+// handles the deletion of question object
 function resolveQuestion(){
     var questionRedefined = document.getElementById("questionResponseHead").children[0];
     var key = Number(questionRedefined.children[1].getAttribute("key"));
@@ -431,6 +456,7 @@ function resolveQuestion(){
     renderLeftWin()
 }
 
+// handels the search + filtering algorithm for the searchBar
 function search(e){
     var searchBoxVal = e.target.value
     // console.log(questionList.children)
@@ -468,6 +494,4 @@ function search(e){
 }
 
 
-// Update the Response Vote counter in Realtime and Local
-// Add Questions Vote Counter
-// Sort the resLocal and re render after each Vote :)
+// 
